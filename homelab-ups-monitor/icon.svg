@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <rect width="512" height="512" rx="112" fill="#1f2933"/>
+  <!-- battery body -->
+  <rect x="150" y="120" width="212" height="300" rx="28" fill="none" stroke="#4ade80" stroke-width="22"/>
+  <!-- battery terminal -->
+  <rect x="214" y="92" width="84" height="30" rx="10" fill="#4ade80"/>
+  <!-- lightning bolt -->
+  <path d="M280 160 L196 300 L246 300 L232 400 L322 250 L268 250 Z" fill="#fbbf24"/>
+</svg>

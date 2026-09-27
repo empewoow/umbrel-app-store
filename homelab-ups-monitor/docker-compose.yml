@@ -1,0 +1,21 @@
+version: "3.7"
+
+services:
+  app_proxy:
+    environment:
+      APP_HOST: homelab-ups-monitor_monitor_1
+      APP_PORT: 8099
+
+  monitor:
+    # Prebuilt multi-arch image (see .github/workflows/docker-publish.yml).
+    # umbrelOS does not build from source — it only pulls this image. Pinned by
+    # @sha256 (multi-arch manifest-list digest) for reproducibility and integrity.
+    image: ghcr.io/empewoow/homelab-ups-monitor:0.6.2@sha256:d510bdda0262727fde7e270fef645f057a6ddf059f68b5502e7d5417faf81b82
+    restart: on-failure
+    # host access so we can shut the host down via nsenter -t 1
+    pid: host
+    privileged: true
+    # All configuration is done in the app's built-in settings page and stored in
+    # ${APP_DATA_DIR}/state — no environment variables needed.
+    volumes:
+      - ${APP_DATA_DIR}/state:/state

@@ -1,0 +1,81 @@
+manifestVersion: "1.1"
+id: homelab-ups-monitor
+name: UPS Monitor
+tagline: Gracefully shut down Umbrel when a remote NUT UPS hits low battery
+icon: https://raw.githubusercontent.com/empewoow/umbrel-app-store/master/homelab-ups-monitor/icon.png
+category: networking
+version: "0.6.2"
+port: 8099
+description: >-
+  Umbrel has no built-in UPS support and no UPS/NUT app exists in any store.
+  UPS Monitor gracefully shuts down your Umbrel when a remote NUT (Network UPS
+  Tools) server reports "Low Battery" — using the raw NUT protocol (port 3493),
+  so no extra REST layer, SSH keys, or Portainer are needed. It persists across
+  reboots and updates because it's a real Umbrel app.
+
+
+  ── Configuration ──
+
+  After installing, open the app to reach its built-in settings page and enter
+  your NUT server details. No environment variables or terminal needed. Fields:
+
+
+  • NUT server IP — the machine running nut-server on your network
+
+  • NUT server port — default 3493
+
+  • UPS name — as defined on your NUT server (commonly "ups")
+
+  • Shut down when battery drops to this % — the main control. Leave blank to shut
+    down only when the UPS itself signals critical low battery. Set e.g. 20 to shut
+    down earlier, with more margin.
+
+  • Poll interval (seconds) — how often to query the NUT server (default 15)
+
+
+  The app always shuts down when the UPS reports critical low battery, so you are
+  protected even if you leave the % blank.
+
+
+  Your NUT server must accept network queries. Test with:
+  printf 'GET VAR ups ups.status\nLOGOUT\n' | nc <nut-host> 3493
+developer: Matthijs
+website: https://github.com/empewoow/umbrel-app-store
+submitter: Matthijs
+submission: https://github.com/empewoow/umbrel-app-store
+repo: https://github.com/empewoow/umbrel-app-store
+support: https://github.com/empewoow/umbrel-app-store/issues
+gallery: []
+widgets:
+  - id: "status"
+    type: "four-stats"
+    refresh: "10s"
+    endpoint: "monitor:8099/widgets/status"
+    link: ""
+    example:
+      type: "four-stats"
+      link: ""
+      items:
+        - title: "Status"
+          text: "Online"
+          subtext: ""
+        - title: "Battery"
+          text: "100"
+          subtext: "%"
+        - title: "Runtime"
+          text: "52"
+          subtext: "min"
+        - title: "Load"
+          text: "12"
+          subtext: "%"
+releaseNotes: >-
+  The dashboard widget now works, the app version is shown on the settings page, and
+  the settings screen has clearer labels, inline validation and a friendly first-run
+  state. Under the hood: settings are parsed safely instead of evaluated (closes a
+  command-injection path), the form is CSRF-protected, and the shutdown control is a
+  single battery % with the UPS's own low-battery signal always honoured as a backstop.
+
+dependencies: []
+path: ""
+defaultUsername: ""
+defaultPassword: ""
